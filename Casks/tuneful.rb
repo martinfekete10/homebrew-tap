@@ -13,5 +13,5 @@ cask "tuneful" do
   
   depends_on macos: ">= :ventura"
 
-  app "AirBattery.app"
+  app "Tuneful.app"
 end
