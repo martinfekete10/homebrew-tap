@@ -6,7 +6,7 @@ cask "tuneful" do
   version "1.2.0"
 
   livecheck do
-    url "https://github.com/lihaoyun6/AirBattery/releases/latest"
+    url "https://github.com/martinfekete10/Tuneful/releases/latest"
     strategy :page_match
     regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+)["' >]}i)
   end
