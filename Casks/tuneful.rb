@@ -4,7 +4,7 @@ cask "tuneful" do
 
   desc "Native macOS menu bar playback control app for Spotify and Apple Music"
   homepage "https://github.com/martinfekete10/Tuneful"
-  url "https://github.com/martinfekete10/Tuneful/releases/download/v#{version}/Tuneful.dmg"
+  url "https://github.com/martinfekete10/Tuneful/releases/download/#{version}/Tuneful.dmg"
 
   depends_on macos: ">= :ventura"
   app "Tuneful.app"
