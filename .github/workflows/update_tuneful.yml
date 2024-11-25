@@ -12,7 +12,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Get latest release info
+      - name: Get the latest release info
         run: |
           latest_release=$(curl -s https://api.github.com/repos/martinfekete10/Tuneful/releases/latest)
           latest_tag=$(echo $latest_release | jq -r '.tag_name')
@@ -20,11 +20,11 @@ jobs:
           echo "latest_tag=$latest_tag" >> $GITHUB_ENV
           echo "latest_sha256=$latest_sha256" >> $GITHUB_ENV
 
-      - name: Check if new release is available
+      - name: Check if a new release is available
         run: |
           current_version=$(grep -oP 'version "\K[^"]+' Casks/tuneful.rb)
           if [ "$latest_tag" != "v$current_version" ]; then
-            echo "New release available: $latest_tag"
+            echo "New release available: v$current_version -> $latest_tag"
             echo "Updating tuneful.rb"
             sed -i "s/version \".*\"/version \"$latest_tag\"/" Casks/tuneful.rb
             sed -i "s/sha256 \".*\"/sha256 \"$latest_sha256\"/" Casks/tuneful.rb
@@ -34,5 +34,5 @@ jobs:
             git commit -m "Update Tuneful to $latest_tag"
             git push
           else
-            echo "No new release"
+            echo "No new release."
           fi
