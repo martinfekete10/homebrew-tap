@@ -1,6 +1,6 @@
 cask "tuneful" do
-  version "1.6.0"
-  sha256 "230e399133354310913a4f8bcda82ba91a92098f7f19560d0d32613388c08041"
+  version "v1.7.1"
+  sha256 "a7a125211fbc9042aa6ff1be4521ffd0c4f52a08f744a7671b3848bde6504610"
 
   desc "Native macOS menu bar playback control app for Spotify and Apple Music"
   homepage "https://github.com/martinfekete10/Tuneful"

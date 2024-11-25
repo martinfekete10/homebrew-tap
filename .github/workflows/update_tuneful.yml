@@ -1,0 +1,38 @@
+name: Check and Update Tuneful Release
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Runs daily at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  check_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get the latest release info
+        run: |
+          latest_release=$(curl -s https://api.github.com/repos/martinfekete10/Tuneful/releases/latest)
+          latest_tag=$(echo $latest_release | jq -r '.tag_name')
+          latest_sha256=$(curl -L https://github.com/martinfekete10/Tuneful/releases/download/$latest_tag/Tuneful.dmg | shasum -a 256 | awk '{print $1}')
+          echo "latest_tag=$latest_tag" >> $GITHUB_ENV
+          echo "latest_sha256=$latest_sha256" >> $GITHUB_ENV
+
+      - name: Check if a new release is available
+        run: |
+          current_version=$(grep -oP 'version "\K[^"]+' Casks/tuneful.rb)
+          if [ "$latest_tag" != "$current_version" ]; then
+            echo "New release available: $current_version -> $latest_tag"
+            echo "Updating tuneful.rb"
+            sed -i "s/version \".*\"/version \"$latest_tag\"/" Casks/tuneful.rb
+            sed -i "s/sha256 \".*\"/sha256 \"$latest_sha256\"/" Casks/tuneful.rb
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git add Casks/tuneful.rb
+            git commit -m "Update Tuneful to $latest_tag"
+            git push
+          else
+            echo "No new release."
+          fi
