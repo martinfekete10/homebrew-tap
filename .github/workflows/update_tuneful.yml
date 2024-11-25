@@ -23,8 +23,8 @@ jobs:
       - name: Check if a new release is available
         run: |
           current_version=$(grep -oP 'version "\K[^"]+' Casks/tuneful.rb)
-          if [ "$latest_tag" != "v$current_version" ]; then
-            echo "New release available: v$current_version -> $latest_tag"
+          if [ "$latest_tag" != "$current_version" ]; then
+            echo "New release available: $current_version -> $latest_tag"
             echo "Updating tuneful.rb"
             sed -i "s/version \".*\"/version \"$latest_tag\"/" Casks/tuneful.rb
             sed -i "s/sha256 \".*\"/sha256 \"$latest_sha256\"/" Casks/tuneful.rb
